@@ -1,19 +1,9 @@
-FROM node:18-alpine
-
-ARG N8N_VERSION=1.89.2
-
-RUN apk add --update graphicsmagick tzdata
+FROM n8nio/n8n:1.91.3      # ← 公式イメージ
 
 USER root
+# 追加で必要な Alpine パッケージがあればここに並べる
+RUN apk add --no-cache graphicsmagick tzdata
 
-RUN apk --update add --virtual build-dependencies python3 build-base && \
-    npm_config_user=root npm install --location=global n8n@${N8N_VERSION} && \
-    apk del build-dependencies
-
-WORKDIR /data
-
-EXPOSE $PORT
-
-ENV N8N_USER_ID=root
-
-CMD export N8N_PORT=$PORT && n8n start
+WORKDIR /data              # n8n の既定データフォルダ
+EXPOSE ${PORT}
+CMD ["n8n", "start"]       # 起動コマンドは内蔵 PM2 が実行
