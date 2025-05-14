@@ -1,11 +1,10 @@
-# 公式 n8n 1.91.3 イメージ（Node 20 内蔵）
+# Node 20 + n8n 内蔵
 FROM n8nio/n8n:1.91.3
 
+# root でパッケージ追加
 USER root
-# 追加で必要な Alpine パッケージがあればここに並べる
 RUN apk add --no-cache graphicsmagick tzdata
 
-WORKDIR /data          # n8n の既定データフォルダ
-EXPOSE ${PORT}
-# 起動コマンドは内蔵 PM2 が実行
-CMD ["n8n", "start"]
+# 元に戻す（重要！）
+USER node
+# 公式イメージの ENTRYPOINT と CMD をそのまま使う
