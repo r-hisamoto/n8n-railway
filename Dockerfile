@@ -1,5 +1,5 @@
 # Node 20 + n8n 内蔵
-FROM n8nio/n8n:1.94.0
+FROM n8nio/n8n:1.94.1
 
 # root でパッケージ追加
 USER root
